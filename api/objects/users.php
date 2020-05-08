@@ -186,6 +186,57 @@
             }
             
         }
+        
+        //delete user data
+        function delete(){
+            
+            //delete from users table
+            $deleteUser = "DELETE FROM users WHERE User_ID = ?";
+            
+            $stmtOne = $this->connection->prepare($deleteUser);
+            $id = intval($this->userID);
+            
+            $stmtOne->bind_param("i",$id);
+            
+            //delete from users_adress table
+            $deleteUserFromAdress = "DELETE FROM users_adress WHERE User_ID = ?";
+            $stmtTwo = $this->connection->prepare($deleteUserFromAdress);            
+            
+            $stmtTwo->bind_param("i",$id);
+            
+            //delete from users_company table
+            $deleteFromUsersCompany = "DELETE FROM users_company WHERE User_ID = ?";
+            $stmtThree = $this->connection->prepare($deleteFromUsersCompany);            
+            
+            $stmtThree->bind_param("i",$id);
+            
+            // execute query
+            if($stmtOne->execute() && $stmtTwo->execute() && $stmtThree->execute()){
+                return true;
+            }
+
+            return false;
+
+        }
+        
+        //search users
+        function search($keywords){
+            
+            //sanitize
+            $keywords = htmlspecialchars(strip_tags($keywords));
+            $keywords = "%{$keywords}%";
+            
+            //select all query
+            $squery = "SELECT a.personal_id_number, a.First_Name, a.Last_Name, a.Email, b.Country, "
+                    . "b.City, b.Street, b.Number FROM users a "
+                    . "LEFT JOIN users_adress b on a.User_ID = b.User_ID WHERE b.Country LIKE '".$keywords."' OR b.City LIKE '".$keywords
+                    . "' OR b.Street LIKE '".$keywords."'";
+                        
+            $stmt = $this->connection->query($squery);            
+            
+            return $stmt;
+            
+        }
     }
 
 ?>
