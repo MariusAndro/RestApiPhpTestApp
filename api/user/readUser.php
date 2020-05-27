@@ -6,6 +6,9 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/database.php';
 include_once '../objects/users.php';
 
+//echo json_encode(
+//            array("message" => "Test"));
+//die();
 //instantiate database and user object
 $database = new Database();
 $db = $database->getConnection();
@@ -20,8 +23,7 @@ $stmt = $user->read();
 $num = $stmt->num_rows;
 
 //check if there is more than 1 row
-if($num>0){
-    
+if($num>0){    
 
     $users_arr = array();
     $users_arr["records"] =array();
@@ -37,16 +39,20 @@ if($num>0){
             "Email" => $row["Email"],
             "Country" => $row["Country"],
             "City" => $row["City"],
-            "Number" => $row["Street"]
+            "Street"=>$row["Street"],
+            "Number" => $row["Number"],
+            "Company_Name"=>$row["Company_Name"],
+            "User_Rank"=>$row["User_Rank"]
         );
         array_push($users_arr["records"], $user_ind);
- 
-        //set response code - 200 OK
+        //var_dump($users_arr);
+    }
+     //set response code - 200 OK
         http_response_code(200);
         
         //show users data in json format
-        echo json_encode($user_ind);
-    }
+        
+        echo json_encode($users_arr);
 }
 else {
     //set response code to 404
@@ -57,4 +63,3 @@ else {
             array("message" => "No users found."));
 }
 
-?>

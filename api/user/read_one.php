@@ -31,10 +31,13 @@ if($user->firstName !=null){
         "firstName" => $user->firstName,
         "lastName" => $user->lastName,
         "email" => $user->email,
+        "password" => $user->password,
         "country" => $user->country,
         "city" => $user->city,
         "street" => $user->street,
-        "number" => $user->number        
+        "number" => $user->number,
+        "company" => $user->company,
+        "rank" => $user->rank
     );
     //set response code code -200 OK
     http_response_code(200);

@@ -14,38 +14,41 @@ $db = $datbase->getConnection();
 $user = new User($db);
 
 //get posted data
-$data = json_decode(file_get_contents("php://input"));
-//var_dump($data->personalIDnumb);
-$personal = $data->personalIDnumb;
+$data = file_get_contents("php://input");
+
+$data= json_decode($data);
+
+
+$personal = $data->personal_id_number;
 
 //check if the data is not empty
-if(!empty($data->personalIDnumb) &&
-        !empty($data->firstName) &&
-        !empty($data->lastName) &&
-        !empty($data->email) &&
-        !empty($data->password) &&
-        !empty($data->country) &&
-        !empty($data->city) &&
-        !empty($data->street) &&
-        !empty($data->number) &&
-        !empty($data->company) &&
-        !empty($data->rank)
+
+if(!empty($data->personal_id_number) &&
+        !empty($data->First_name) &&
+        !empty($data->Last_name) &&
+        !empty($data->Email) &&
+        !empty($data->Password) &&
+        !empty($data->Country) &&
+        !empty($data->City) &&
+        !empty($data->Street) &&
+        !empty($data->Number) &&
+        !empty($data->company_id) &&
+        !empty($data->Rank)
 ){
     
     //set User's properties
     $user->personalIDNumber = $personal;
-    $user->firstName = $data->firstName;
-    $user->lastName = $data->lastName;
-    $user->email = $data->email;
-    $user->password = $data->password;
-    $user->company = $data->company;
-    $user->rank = $data->rank;
-    $user->country = $data->country;
-    $user->city = $data->city;
-    $user->street = $data->street;
-    $user->number = $data->number;
-    
-    
+    $user->firstName = $data->First_name;
+    $user->lastName = $data->Last_name;
+    $user->email = $data->Email;
+    $user->password = $data->Password;
+    $user->company = $data->company_id;
+    $user->rank = $data->Rank;
+    $user->country = $data->Country;
+    $user->city = $data->City;
+    $user->street = $data->Street;
+    $user->number = $data->Number;
+        
     //create the product
     
     if ($user->create()){
@@ -66,11 +69,8 @@ if(!empty($data->personalIDnumb) &&
 //tell the user data is incomplete
 else{
     //set response code - 400 bad request
-    http_response_code(400);
-    
+    http_response_code(400);    
     //tell the user
     echo json_encode(array("message"=>"Unable to create user. Data is incomplete!"));
     
 }
-
-?>

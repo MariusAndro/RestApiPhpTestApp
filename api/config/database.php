@@ -4,9 +4,9 @@ class Database{
     //$_SESSION['userID'] = 2;
 
 
-    private $password = "";
+    private $password = "vointa20";
     private $user_name = "root";
-    private $host = "localhost";
+    private $host = "localhost:3306";
     private $db_name = "usermanagement";
 
     public function getConnection(){
